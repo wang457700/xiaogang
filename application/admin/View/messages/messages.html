@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/projects.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>留言管理</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__STATIC__/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="__STATIC__/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="__STATIC__/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__STATIC__/css/animate.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <style>
+      th{
+        text-align: center;
+      }
+    </style>
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="wrapper wrapper-content animated fadeInUp">
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>留言列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-b-sm m-t-sm">
+                            <div class="col-md-1">
+                                <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
+                            </div>
+
+                            <div class="col-md-11">
+                                <div class="input-group">
+                                    <input type="text" placeholder="请输入留言用户名称" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-list">
+                            <table class="table table-hover" style="text-align:center">
+                                <tbody>
+                                  <tr>
+                                      <th> <input name="checkbox" type="checkbox" /></th>
+                                      <th>ID</th>
+                                      <th><i class="fa fa-user"></i>留言用户</th>
+                                      <th><i class="fa fa-clock-o"></i>留言时间</th>
+                                      <th>鲜花</th>
+                                      <th>点赞</th>
+                                      <th>留言内容</th>
+
+                                      <th>操作</th>
+                                  </tr>
+                                  <foreach name="list" item="mes">
+                                    <tr>
+                                        <td><input type="checkbox" name="checkboxes[]" value="{$mes.id}" /></td>
+                                        <td >
+                                            {$mes.id}
+                                        </td>
+                                        <td >
+                                           <span>{$mes.author}</span>
+                                        </td>
+                                        <td >
+                                            {$mes.addtime}
+                                        </td>
+                                        <td >
+                                            {$mes.flower}
+                                        </td>
+                                        <td >
+                                            {$mes.dianzhan}
+                                        </td>
+                                        <td>
+                                               {$mes.content}
+                                        </td>
+                                        <td>
+                                            <if condition="$mes.is_show == 0">
+                                                <button id="pass_{$mes.id}" class="btn btn-success btn-sm pass"  onclick="pass({$mes.is_show},{$mes.id},this)" ><i  class="fa fa-check"></i> 通过 </button>
+                                                <else/>
+                                                <a  id="pass_{$mes.id}" href="javascript:void(0)" onclick="pass({$mes.is_show},{$mes.id},this)" class="btn btn-danger  btn-sm del pass"><i class="fa fa-close"></i>拒绝 </a>
+                                            </if>
+                                            <a onclick="del({$mes.id},this)"  class="btn btn-white btn-sm del"><i class="fa fa-trash"></i> 删除 </a>
+                                        </td>
+
+                                    </tr>
+                                  </foreach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    <div>
+                        <a onclick="delAll()"  class="btn btn-white btn-sm del"><i class="fa fa-trash"></i> 删除 </a>
+                    </div>
+                        <div id="editable_paginate" class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination">
+                                {$page}
+                           </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="__STATIC__/js/jquery.min.js?v=2.1.4"></script>
+    <script src="__STATIC__/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__STATIC__/js/content.min.js?v=1.0.0"></script>
+    <script src="__STATIC__/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script>
+        function del(id) {
+            $.ajax({
+                type : "POST",
+                url:"{:U('admin/messages/del_mes')}",
+                data:{id:id},
+                dataType:'json',
+                success: function(data){
+                    var status =$.parseJSON(data.status);
+                    if(status==1){
+                        swal("删除成功！", "您已经永久删除了这条信息。", "success")
+                        window.location.href = "{:U('admin/messages/messages')}";
+                    }else {
+                        swal("删除失败！", "您已经永久删除了这条信息。", "error")
+                        window.location.href = "{:U('admin/messages/messages')}";
+                    }
+                    $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+                    $('#loading-example-btn').click(function(){
+                        location.reload();
+                    });
+                }
+            });
+        }
+
+        function delAll() {
+            var arrs = new Array();
+            $("input[name='checkboxes[]']:checked").each(function(i){
+                arrs[i]=$(this).val();
+            });
+            $.ajax({
+                type : "POST",
+                url:"{:U('admin/messages/delAll_mes')}",
+                data:{id:arrs},
+                dataType:'json',
+                success: function(data){
+                    var status =$.parseJSON(data.status);
+                    if(status==1){
+                        swal("删除成功！", "您已经永久删除了这条信息。", "success")
+                        window.location.href = "{:U('admin/messages/messages')}";
+                    }else {
+                        swal("删除失败！", "请重新选择。", "error")
+                        window.location.href = "{:U('admin/messages/messages')}";
+                    }
+                    $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+                    $('#loading-example-btn').click(function(){
+                        location.reload();
+                    });
+                }
+            });
+        }
+        $('input[name="checkbox"]').click(function(){
+            //alert(this.checked);
+            if($(this).is(':checked')){
+                $('input[name="checkboxes[]"]').each(function(){
+                    //此处如果用attr，会出现第三次失效的情况
+                    $(this).prop("checked",true);
+                });
+            }else{
+                $('input[name="checkboxes[]"]').each(function(){
+                    $(this).removeAttr("checked",false);
+                });
+                //$(this).removeAttr("checked");
+            }
+        });
+
+       function pass(status,mes_id) {
+
+
+           switch (status) {
+               case 1:
+                   status = 0;
+                   break;
+               case 0:
+                   status = 1;
+                   break;
+           }
+           $.ajax({
+               type : "POST",
+               url:"{:U('admin/messages/status')}",
+               data:{
+                   'status':status,
+                   'mes_id':mes_id
+               },
+               dataType:'json',
+               success: function(data){
+                   var passid =$.parseJSON(data.status);
+                  if(passid ==1){
+                      window.location.href = "{:U('admin/messages/messages')}";
+                  }
+               }
+           });
+       }
+
+    </script>
+    </body>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/projects.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+</html>

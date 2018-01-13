@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<!-- Mirrored from www.zi-han.net/theme/hplus/projects.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__STATIC__/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="__STATIC__/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="__STATIC__/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__STATIC__/css/animate.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <style>
+      th{
+        text-align: center;
+      }
+    </style>
+
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInUp">
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>所有用户</h5>
+                        <div class="ibox-tools">
+                            <a href="{:U('admin/user/exportUser')}" class="btn btn-primary btn-xs">导出用户</a>
+                            <a href="{:U('admin/user/add_user')}" class="btn btn-primary btn-xs">添加新用户</a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row m-b-sm m-t-sm">
+                            <div class="col-md-1">
+                                <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
+                            </div>
+
+                            <div class="col-md-11">
+                                <div class="input-group">
+                                    <input type="text" placeholder="请输入用户名称" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-list">
+                            <table class="table table-hover" style="text-align:center">
+                                <tbody>
+                                  <tr>
+                                      <th> <input name="checkbox" type="checkbox" /></th>
+                                      <th>ID</th>
+                                      <th><i class="fa fa-user"></i>用户名</th>
+                                      <th><i class="fa fa-clock-o"></i>注册时间</th>
+                                      <th>性别</th>
+                                      <th>电话</th>
+                                      <th>操作</th>
+                                  </tr>
+                                  <foreach name="admin_list" item="list">
+                                    <tr>
+                                        <td><input type="checkbox" name="checkboxes[]" value="{$list.user_id}" /></td>
+                                        <td >
+                                            {$list.user_id}
+                                        </td>
+                                        <td >
+                                            {$list.nickname}
+                                        </td>
+                                        <td >
+                                            {$list.addtime}
+                                        </td>
+                                        <td>
+
+                                            <if condition="$list.six == 0">
+                                                <i class="fa fa-male">
+
+                                                </i>男
+
+                                            <else/>
+                                            <i class="fa fa-male">
+
+                                            </i>女
+                                            </if>
+                                        </td>
+                                        <td>
+                                            {$list.mobile_phone}
+                                        </td>
+                                        <td>
+                                            <a href="{:U('admin/user/edit_user',array('id'=>$list['user_id']))}" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
+                                            <a onclick="del({$list.user_id},this)"  class="btn btn-white btn-sm del"><i class="fa fa-trash"></i> 删除 </a>
+                                        </td>
+                                    </tr>
+                                  </foreach>
+                                    </tbody>
+                                </table>
+                            <div>
+                                <a onclick="delAll()"  class="btn btn-white btn-sm del"><i class="fa fa-trash"></i> 删除 </a>
+                            </div>
+                            </div>
+                        </div>
+                        <div id="editable_paginate" class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination">
+                                {$page}
+                        </ul></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="__STATIC__/js/jquery.min.js?v=2.1.4"></script>
+    <script src="__STATIC__/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="__STATIC__/js/content.min.js?v=1.0.0"></script>
+    <script src="__STATIC__/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="__STATIC__/js/plugins/layer/layer.min.js"></script>
+    <script>
+        function del(id) {
+
+            $.ajax({
+                type : "POST",
+                url:"{:U('admin/user/del_user')}",
+                data:{id:id},
+                dataType:'json',
+                success: function(data){
+
+                    var code  = $.parseJSON(data.status );
+                    layer.closeAll();
+                    if (code== 1) {
+                        $(id).parent().parent().remove();
+                        layer.closeAll();
+                    } else {
+                        layer.alert('删除失败', {icon: 2});  //alert('删除失败');
+                    }
+                    $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+                    $('#loading-example-btn').click(function(){
+                        location.reload();
+                    });
+                }
+            });
+        }
+
+        function delAll() {
+            var arrs = new Array();
+            $("input[name='checkboxes[]']:checked").each(function(i){
+                arrs[i]=$(this).val();
+            });
+            $.ajax({
+                type : "POST",
+                url:"{:U('admin/user/delAll_user')}",
+                data:{id:arrs},
+                dataType:'json',
+                success: function(data){
+                    var code  = $.parseJSON(data.status );
+                    layer.closeAll();
+                    if (code== 1) {
+                        $(arrs).parent().parent().remove();
+                        layer.closeAll();
+                    } else {
+                        layer.alert('删除失败', {icon: 2});  //alert('删除失败');
+                    }
+                    $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+                    $('#loading-example-btn').click(function(){
+                        location.reload();
+                    });
+
+                }
+            });
+
+        }
+
+        $('input[name="checkbox"]').click(function(){
+            //alert(this.checked);
+            if($(this).is(':checked')){
+                $('input[name="checkboxes[]"]').each(function(){
+                    //此处如果用attr，会出现第三次失效的情况
+                    $(this).prop("checked",true);
+                });
+            }else{
+                $('input[name="checkboxes[]"]').each(function(){
+                    $(this).removeAttr("checked",false);
+                });
+                //$(this).removeAttr("checked");
+            }
+
+        });
+        $('#loading-example-btn').click(function(){
+            location.reload();
+        })
+    </script>
+
+</body>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/projects.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+</html>

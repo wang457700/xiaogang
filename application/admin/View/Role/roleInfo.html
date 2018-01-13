@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H+ 后台主题UI框架 - 基本表单</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__STATIC__/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="__STATIC__/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="__STATIC__/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__STATIC__/css/animate.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" href="__STATIC__/js/kindeditor/themes/default/default.css" />
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>编辑角色</h5>
+                    <small><a href="javascript:history.back();" style="color:#ccc;margin-left:10px"><i class="fa fa-list"></i>角色列表</a></small>
+                    <div class="ibox-tools"><button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
+
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form method="POST" enctype="multipart/form-data"  id="adminHandle" action="{:U('Role/roleSave')}" class="form-horizontal">
+                      <!--  <input type="hidden" name="act" value="{$act}">-->
+                        <input type="hidden" name="role_id" value="{$info.role_id}">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">角色名</label>
+                            <div class="col-sm-3">
+                                <input type="text" name="data[role_name]" value="{$info.role_name}" class="form-control">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">角色描述</label>
+                            <textarea name="data[role_desc]">{$info.role_desc}</textarea>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group" style="border-top:none;">
+                            <label class="col-sm-2 control-label" for="cls_full">权限分配</label>
+                            <h4>
+                                <input id="cls_full" onclick="choosebox(this)" type="checkbox">
+                                <label>全选</label>
+                            </h4>
+                        </div>
+                           <div style="width: 76%;margin: auto;">
+                            <foreach name="modules" item="menu" key="kk">
+                                <div class="ncap-account-container" style="border-top:none;">
+                                    <ul class="ncap-account-container-list">
+                                        <li>
+                                            <label>{$kk}</label>
+                                            <input value="1" cka="mod-{$kk}" class="checkbox" type="checkbox">
+                                            <label>全部</label>
+                                        </li>
+                                        <foreach name="menu" item="vv">
+                                            <li>
+                                                <input class="checkbox" name="right[]" value="{$vv.id}" <if condition="$vv.enable eq 1">checked</if> ck="mod-{$kk}" type="checkbox">{$vv.name}
+                                            </li>
+                                        </foreach>
+                                    </ul>
+                                </div>
+                            </foreach>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <a href="JavaScript:void(0);" onclick="adsubmit();" class="btn btn-primary" id="submitBtn">确认提交</a>
+                                <a class="btn btn-white" href="javascript:void(0)" onclick="history.go(-1)" >取消</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="__STATIC__/js/jquery.min.js?v=2.1.4"></script>
+<script src="__STATIC__/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="__STATIC__/js/content.min.js?v=1.0.0"></script>
+<script src="__STATIC__/js/plugins/layer/layer.min.js"></script>
+<script src="__STATIC__/js/plugins/layer/laydate/laydate.js"></script>
+<script src="__STATIC__/js/plugins/iCheck/icheck.min.js"></script>
+<script charset="utf-8" src="__STATIC__/js/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__STATIC__/js/kindeditor/lang/zh_CN.js"></script>
+
+<script type="text/javascript">
+    // 判断输入框是否为空
+    function adsubmit(){
+        if($('input[name=rolename]').val() == ''){
+            layer.msg('用户名不能为空！', {icon: 2,time: 1000});
+            return false;
+        }
+
+        $('#adminHandle').submit();
+    }
+    $(document).ready(function(){
+        $(":checkbox[cka]").click(function(){
+            var $cks = $(":checkbox[ck='"+$(this).attr("cka")+"']");
+            if($(this).is(':checked')){
+                $cks.each(function(){$(this).prop("checked",true);});
+            }else{
+                $cks.each(function(){$(this).removeAttr('checked');});
+            }
+        });
+    });
+    function choosebox(o){
+        var vt = $(o).is(':checked');
+        if(vt){
+            $('input[type=checkbox]').prop('checked',vt);
+        }else{
+            $('input[type=checkbox]').removeAttr('checked');
+        }
+    }
+    $('#loading-example-btn').click(function(){
+        location.reload();
+    });
+</script>
+
+</body>
+</html>

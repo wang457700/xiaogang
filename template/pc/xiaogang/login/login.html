@@ -1,0 +1,229 @@
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en-US"><!--<![endif]-->
+<head>
+    <title>{$config.bese_name}</title>
+    <meta charset="utf-8">
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+    <![endif]-->
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="description" content="{$config.bese_description}">
+    <meta name="keywords" content="晓刚博客"/>
+    <meta name="author" content="MR:Daly">
+    <!-- Fav icon -->
+
+    <link href="__STATIC__/css/common.css" rel="stylesheet" media="screen" type="text/css" />
+
+    <!-- <meta name="robots" content="index,follow"> -->
+
+    <!-- ############################# Stylesheets ############################# -->
+
+    <link rel="stylesheet" href="__STATIC__/css/style.css" media="screen" />
+    <link href="__STATIC__/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="__STATIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/login.js"></script>
+    <link href="__STATIC__/css/login2.css" rel="stylesheet" type="text/css" />
+    <!-- ############################# Javascript - Modernizr ############################# -->
+
+    <script src="__STATIC__/js/modernizr.custom_2.js"></script>
+
+    <SCRIPT LANGUAGE=JavaScript>
+        <!--
+        //兼容性
+        function thisMovie(movieName) {
+            if (navigator.appName.indexOf("Microsoft") != -1) {
+                return window[movieName]
+            }
+            else {
+                return document[movieName]
+            }
+        }
+        //=============================================================================
+        function getTimes(pars)
+        {
+//alert("输出当前时间信息："+pars);
+            var times = pars;
+            document.getElementById("time").innerHTML = "输出当前时间信息："+times+" ";
+        }
+        //=============================================================================
+        //-->
+    </SCRIPT>
+</head>
+<body>
+<!--[if lte IE 8]>
+<div id="ie6-message"><p>You are using Internet Explorer 8.0 or older to view the web. Please upgrade to a newer browser to fully enjoy the web. <a href="http://www.microsoft.com/windows/internet-explorer/default.aspx">Upgrade your browser</a></p></div>
+<![endif]-->
+
+<!-- ############################# Page ############################# -->
+<section id="page" style="margin-top: -22px;" >
+
+    <!-- ############################# Header ############################# -->
+    <header id="header" >
+        <div class="container">
+            <!-- ############################# Logo ############################# -->
+            <!--播放器/代码开始-->
+            <div style="margin-top: 15px;" id="logo">
+
+            </div>
+            <!-- ############################# Menu ############################# -->
+            <!-- Menu Tigger -->
+            <a href="#" id="menu-trigger" style="background: #000" ><span class="icon"></span></a>
+            <!-- /menu Tigger -->
+        </div>
+        <!-- Menu Container -->
+        <div id="menu-container">
+            <div class="container">
+                <h3 class="nav-title">Menu</h3>
+                <div class="divider white"></div>
+                <nav id="nav">
+                    <ul>
+                        <li><a href="{:U('Home/index/index')}" class="active">首页</a></li>
+                        <li><a href="{:U('Home/Portfolio/Portfolio')}">作品展示</a></li>
+                        <li><a href="{:U('Home/about/about')}">关于MR:Dailey</a></li>
+                        <li><a href="{:U('Home/contact/contact')}">Call ME</a></li>
+                        <li><a href="{:U('Home/message/message')}">匿名吐槽</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="overlay"></div>
+        </div>
+    </header>
+
+
+<h1>登录中心<sup>晓刚站点</sup></h1>
+
+<div class="login" style="margin-top:50px;">
+
+    <div class="header">
+        <div class="switch" id="switch"><a class="switch_btn_focus" id="switch_qlogin" href="javascript:void(0);" tabindex="7">快速登录</a>
+            <a class="switch_btn" id="switch_login" href="javascript:void(0);" tabindex="8">快速注册</a><div class="switch_bottom" id="switch_bottom" style="position: absolute; width: 64px; left: 0px;"></div>
+        </div>
+    </div>
+    <div class="web_qr_login" id="web_qr_login" style="display: block; ">
+        <!--登录-->
+        <div class="web_login" id="web_login">
+            <div class="login-box">
+                <div class="login_form">
+                    <form action="{:U('login/login')}" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
+                        <input type="hidden" name="to" value="log"/>
+                        <ul class="reg_form" id="reg-ul">
+                            <li>
+
+                                <label for="user" style="font-size: 12px;"  class="input-tips2">用户名：</label>
+                                <div class="inputOuter2">
+                                    <input type="text" id="u" name="username" maxlength="16" />
+                                </div>
+
+                            </li>
+
+                            <li style="margin-bottom: 85px;">
+                                <label for="passwd" style="font-size: 12px;" class="input-tips2">密码：</label>
+                                <div class="inputOuter2">
+                                    <input type="password" id="p"  name="password" maxlength="16" />
+                                </div>
+
+                            </li>
+
+
+                            <li>
+                                <div class="inputArea" >
+                                    <div style="margin: 0 auto"><input type="submit" value="登 录" style="width:150px;" class="button_blue"/></div>
+                                </div>
+
+                            </li>
+                        </ul>
+
+
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+        <!--登录end-->
+    </div>
+
+    <!--注册-->
+    <div class="qlogin" id="qlogin" style="display: none; ">
+
+        <div class="web_login">
+            <form name="form2" id="regUser" accept-charset="utf-8"  action="{:U('login/reg')}" method="post">
+            <input type="hidden" name="to" value="reg"/>
+            <input type="hidden" name="did" value="0"/>
+            <ul class="reg_form" id="reg-ul">
+                <div id="userCue" class="cue">快速注册请注意格式</div>
+                <li>
+
+                    <label for="user" style="font-size: 12px;"  class="input-tips2">用户名(username)：</label>
+                    <div class="inputOuter2">
+                        <input type="text" id="user" name="user" maxlength="16" />
+                    </div>
+
+                </li>
+
+                <li>
+                    <label for="passwd" style="font-size: 12px;" class="input-tips2">密码(Password)：</label>
+                    <div class="inputOuter2">
+                        <input type="password" id="passwd"  name="password" maxlength="16" />
+                    </div>
+
+                </li>
+                <li>
+                    <label for="passwd2" style="font-size: 12px;" class="input-tips2">确认密码(ConfirmPassword):</label>
+                    <div class="inputOuter2">
+                        <input type="password" id="passwd2" name="password2" maxlength="16" />
+                    </div>
+                </li>
+                <li>
+                    <label for="passwd2" style="font-size: 12px;" class="input-tips2">性别(six)：</label>
+                    <div class="inputOuter2">
+                       <div style="float: left;width: 90px;color: #999;">男(male): <input style="display: inline-block;width: 10px;" type="radio" checked="checked" name="six" value="0" maxlength="" /></div>
+                      <div style="float: right;width: 90px;color: #999;"> 女(female): <input style="display: inline-block;width: 10px;" type="radio"  checked="checked" name="six" value="1" maxlength="" /></div>
+                    </div>
+                </li>
+                    <div style="clear: both"></div>
+                <li>
+                    <div class="inputArea">
+                        <input type="button" id="reg"  style="margin-top:10px;" class="button_blue" value="同意协议并注册"/>
+                    </div>
+
+                </li><div class="cl"></div>
+            </ul></form>
+
+
+        </div>
+
+
+    </div>
+    <!--注册end-->
+</div>
+</section>
+<!-- /page -->
+</section>
+<!-- /page -->
+
+<!-- ############################# Javascripts ############################# -->
+
+<script src="__STATIC__/js/jquery.easing-1.3.min_2.js"></script>
+<script src="__STATIC__/js/jquery.queryloader2.min_2.js"></script>
+<script src="__STATIC__/js/smoothscroll_2.js"></script>
+<script src="__STATIC__/js/waypoints.min_2.js"></script>
+<script src="__STATIC__/js/jquery.transit.min_2.js"></script>
+<script src="__STATIC__/js/jquery.scrollto.min_2.js"></script>
+<script src="__STATIC__/js/jquery.small.plugins_2.js"></script>
+<script src="__STATIC__/js/owl.carousel.min_2.js"></script>
+<script src="__STATIC__/js/jquery.fancybox-1.3.4.pack_2.js"></script>
+<script src="__STATIC__/js/retina.min_2.js"></script>
+<!-- Custom scripts -->
+<script src="__STATIC__/js/custom.js"></script>
+</body>
+</html>

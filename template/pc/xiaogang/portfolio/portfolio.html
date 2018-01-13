@@ -1,0 +1,53 @@
+﻿<include file="Public::header"/>
+    <!-- ############################# Portfolio ############################# -->
+    <section id="portfolio" class="cover-bg portfolio-intro">
+
+        <!-- Portfolio content -->
+        <div id="portfolio-content">
+            <!-- Filter -->
+            <ul id="portfolio-filter" class="inline-dots">
+                <li><a href="#" data-filterby="*" class="active">全部</a></li>
+                <foreach name="cat_name" item="info">
+                <li><a href="javascript:void (0)" data-filterby="{$info.cat_name}">{$info.cat_name}</a></li>
+                </foreach>
+            </ul>
+            <!-- /filter -->
+
+            <!-- Portfolio -->
+            <div id="portfolio-carousel" class="owl-carousel carousel">
+
+                <foreach name="articleList" item="list">
+                <!-- Portfolio Item -->
+                <article class="portfolio-item carousel-fw-item carousel-item" data-filter="{$list.cat_name}">
+                    <a class="zoom-thumb smooth-link" href="{:U('article/article',array('id'=>$list.id))}">
+                        <img src="__PUBLIC__/uploads/{$list.images}" alt="__PUBLIC__/uploads/{$list.images}">
+                    </a>
+                    <footer>
+                        <h2 class="title">{$list.title}</h2>
+                        <!-- Categories -->
+                        <ul class="inline-dots portfolio-cats">
+                            <li>{$list.description}</li>
+                        </ul>
+                        <!-- /Categories -->
+                    </footer>
+                    <!-- Overlay -->
+                    <div class="overlay"></div>
+                </article>
+                <!-- /Portfolio Item -->
+                </foreach>
+
+
+            </div>
+            <!-- /portfolio carousel -->
+
+        </div>
+        <!-- /portfolio content -->
+
+       <span class="swipe-icon"></span>
+
+    </section>
+    <!-- /portfolio -->
+
+<!-- /page -->
+
+<include file="Public::footer"/>

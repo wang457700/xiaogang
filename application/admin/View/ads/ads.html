@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<!-- Mirrored from www.zi-han.net/theme/hplus/projects.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章管理</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__STATIC__/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="__STATIC__/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="__STATIC__/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="__STATIC__/css/animate.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <style>
+        th{
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInUp">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>广告管理</h5>
+                    <div class="ibox-tools">
+                        <a href="{:U('admin/ads/add_ads')}" class="btn btn-primary btn-xs">添加广告</a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-b-sm m-t-sm">
+                        <div class="col-md-1">
+                            <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
+                        </div>
+                        <form method="post" action="">
+                            <div class="col-md-11">
+                                <div class="input-group">
+                                    <input type="text" placeholder="请输入分类名称" name="cat_name" value="" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-sm btn-primary"> 搜索</button> </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="project-list">
+                        <table class="table table-hover" style="text-align:center">
+                            <tbody>
+                            <tr>
+                                <th> <input name="checkbox" type="checkbox" /></th>
+                                <th>ID</th>
+                                <th><i class="fa fa-header"></i>广告标题</th>
+                                <th><i class="fa fa-header"></i>广告分类</th>
+                                <th><i class="fa fa-header"></i>广告图片</th>
+                                <th><i class="fa fa-clock-o">添加时间</th>
+                                <th><i class="fa fa-clock-o">广告链接</th>
+                                <th><i class="fa fa-eye">是否显示</th>
+                                <th>操作</th>
+                            </tr>
+                            <volist name="ads" id="list">
+                                <tr>
+                                    <td><input type="checkbox" name="checkboxes[]" value="{$list.id}" /></td>
+                                    <td >
+                                        {$list.id}
+                                    </td>
+                                    <td >
+                                       {$list.title}
+                                    </td>
+                                    <td >
+                                        {$list.cat_ads}
+                                    </td>
+                                    <td class="banimg" >
+                                       <img style="width: 50px; height: 50px;" src="__PUBLIC__/uploads/{$list.ads_img}"/>
+                                    </td>
+                                    <td>
+                                        {$list.addtime}
+                                    </td>
+                                    <td>
+                                        {$list.code_lilk}
+                                    </td>
+                                    <td>
+                                        <if condition="$list.is_show == 0">
+                                            否
+                                            <else />
+                                            是
+                                        </if>
+                                    </td>
+                                    <td>
+                                        <a href="{:U('Admin/ads/edit_ads',array('edit_id'=>$list['id']))}" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>
+                                        <a  onclick="del({$list.id},this) " class="btn btn-white btn-sm del"><i class="fa fa-trash"></i> 删除 </a>
+                                    </td>
+                                </tr>
+                            </volist>
+                            </tbody>
+                        </table>
+                        <div>
+                            <a onclick="delAll()"  class="btn btn-white btn-sm del"><i class="fa fa-trash"></i> 删除 </a>
+                        </div>
+                        <div>
+                            <select  style="width: 180px;" class="form-control" onchange="upCat(this)">
+                                  <option>请选择你要移动到的分类</option>
+                                <foreach name="cat_ads" item="ite" >
+                                    <option value="{$ite.id}">{$ite.cat_ads}</option>
+                                </foreach>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="editable_paginate" class="dataTables_paginate paging_simple_numbers">
+
+                    <ul class="pagination">
+                        {$page}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="__STATIC__/js/jquery.min.js?v=2.1.4"></script>
+<script src="__STATIC__/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="__STATIC__/js/content.min.js?v=1.0.0"></script>
+<script src="__STATIC__/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+<script>
+    function del(id) {
+        swal({
+            title: "您确定要删除这篇文章吗",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#1647a1",
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function(isConfirm) {
+            swal("已取消", "您取消了删除操作！", "error")
+        });
+        $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+        $('#loading-example-btn').click(function(){
+            location.reload();
+        });
+        $.ajax({
+            type : "POST",
+            url:"{:U('admin/ads/del')}",
+            data:{id:id},
+            success: function(data){
+                var res = $.parseJSON(data);
+                if(res.status==1){
+                    swal("删除成功！", "您已经永久删除了这条信息。", "success")
+                    window.location.href = "{:U('admin/ads/ads')}";
+                }
+            }
+        });
+    }
+
+    function upCat(id) {
+         var cat_id =id.value;
+        var arrs = new Array();
+        $("input[name='checkboxes[]']:checked").each(function(i){
+            arrs[i]=$(this).val();
+        });
+        $.ajax({
+            type : "POST",
+            url:"{:U('admin/ads/upCat')}",
+            data:{id:arrs,cat_id:cat_id},
+            dataType:'json',
+            success: function(data){
+                var status =$.parseJSON(data.status);
+                if(status==1){
+                    swal("移动成功！", "移动成功。", "success");
+                    window.location.href = "{:U('admin/ads/ads')}";
+                }else {
+                    swal("移动失败！", "移动失败请重新选择。", "error");
+                    window.location.href = "{:U('admin/ads/ads')}";
+                }
+                $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+                $('#loading-example-btn').click(function(){
+                    location.reload();
+                });
+            }
+        });
+
+    $('input[name="checkbox"]').click(function(){
+        //alert(this.checked);
+        if($(this).is(':checked')){
+            $('input[name="checkboxes[]"]').each(function(){
+                //此处如果用attr，会出现第三次失效的情况
+                $(this).prop("checked",true);
+            });
+        }else{
+            $('input[name="checkboxes[]"]').each(function(){
+                $(this).removeAttr("checked",false);
+            });
+            //$(this).removeAttr("checked");
+        }
+
+    });
+
+    }
+
+
+    function delAll() {
+        var arrs = new Array();
+        $("input[name='checkboxes[]']:checked").each(function(i){
+            arrs[i]=$(this).val();
+        });
+        $.ajax({
+            type : "POST",
+            url:"{:U('admin/ads/delAll')}",
+            data:{id:arrs},
+            dataType:'json',
+            success: function(data){
+                var status =$.parseJSON(data.status);
+                if(status==1){
+                    swal("删除成功！", "您已经永久删除了这条信息。", "success")
+                    window.location.href = "{:U('admin/ads/ads')}";
+                }else {
+                    swal("删除失败！", "请重新选择。", "error")
+                    window.location.href = "{:U('admin/ads/ads')}";
+                }
+                $(document).ready(function(){$("#loading-example-btn").click(function(){btn=$(this);simpleLoad(btn,true);simpleLoad(btn,false)})});function simpleLoad(btn,state){if(state){btn.children().addClass("fa-spin");btn.contents().last().replaceWith(" Loading")}else{setTimeout(function(){btn.children().removeClass("fa-spin");btn.contents().last().replaceWith(" Refresh")},2000)}};
+                $('#loading-example-btn').click(function(){
+                    location.reload();
+                });
+            }
+        });
+    }
+    $('input[name="checkbox"]').click(function(){
+        //alert(this.checked);
+        if($(this).is(':checked')){
+            $('input[name="checkboxes[]"]').each(function(){
+                //此处如果用attr，会出现第三次失效的情况
+                $(this).prop("checked",true);
+            });
+        }else{
+            $('input[name="checkboxes[]"]').each(function(){
+                $(this).removeAttr("checked",false);
+            });
+            //$(this).removeAttr("checked");
+        }
+
+    });
+
+</script>
+
+
+<!--<script type="text/javascript">
+    $(function(){
+        var imgWid = 0 ;
+        var imgHei = 0 ; //变量初始化
+        var big = 5;//放大倍数
+        $(".banimg").hover(function(){
+            $(this).find("img").stop(true,true);
+            var imgWid2 = 0;var imgHei2 = 0;//局部变量
+            imgWid = $(this).find("img").width();
+            imgHei = $(this).find("img").height();
+            imgWid2 = imgWid * big;
+            imgHei2 = imgHei * big;
+            $(this).find("img").css({"z-index":2});
+            $(this).find("img").animate({"width":imgWid2,"height":imgHei2,"margin-left":-imgWid2/2,"margin-top":-imgHei2/2});
+        },function(){$(this).find("img").stop().animate({"width":imgWid,"height":imgHei,"margin-left":-imgWid/2,"margin-top":-imgHei/2,"z-index":1});});
+    })
+</script>-->
+
+</body>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/projects.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+</html>
+

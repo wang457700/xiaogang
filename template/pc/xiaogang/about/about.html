@@ -1,0 +1,182 @@
+﻿<include file="Public::header"/>
+    <!-- ############################# Resize Image ############################# -->
+    <section id="resize-image" class="intro clearfix">
+        <div class="intro-captions">
+            <h3 class="caption-title big animated">{$article.title}</h3><br>
+            <h3 class="caption-title small animated">{$article.description}</h3>
+            <div class="divider white long animated"></div>
+            <a class="intro-button icon-button smooth-scroll animated" href="#content"><i class="icon icon-arrow-down"></i></a>
+        </div>
+        <!-- Image -->
+        <div class="image about-intro"></div>
+        <!-- Overlay -->
+        <span class="overlay animated"></span>
+
+        <!-- Scroll Animation -->
+        <div class="scroll-anim">
+            <span class="scroll"></span>
+            <span class="scroll-text">{$article.author}</span>
+        </div>
+
+    </section>
+    <!-- /resize-image -->
+
+    <!-- ############################# Page Content ############################# -->
+    <section id="content">
+
+        <!-- ############################# Services ############################# -->
+        <section id="services" class="section">
+
+            <!-- Container -->
+            <div class="container">
+
+                <!-- Section Header -->
+                <header class="section-header">
+                    <h2 class="section-title animated" data-delay="0">{$that_year.title}</h2>
+                    <div class="divider dark long animated" data-delay="100"></div>
+                    <p class="section-header-text animated" data-delay="200">{$that_year.description}</p>
+                </header>
+                <!-- /section header -->
+
+                <!-- Services -->
+                <div class="row">
+                    <foreach name="wonderful" item="list">
+                    <!-- Service -->
+                    <div class="col-1-4 service animated" data-delay="0">
+                        <!-- Icon -->
+                        <span class="service-icon icon"><img src="__PUBLIC__/uploads/{$list.images}"/></span>
+                        <!-- Title -->
+                        <h3 class="service-title">{$list.title|msubstr=0,5}</h3>
+
+                        <p class="service-text" style="height: 40px;">{$list.description |msubstr=0,50}</p>
+
+                        <a class="readmore" href="{:U('home/article/article',array('id'=>$list['id']))}">Read more</a>
+
+                    </div>
+                    <!-- /service -->
+                    </foreach>
+                </div>
+                <!-- /services -->
+            </div>
+            <!-- /container -->
+        </section>
+        <!-- /services -->
+
+
+        <!-- ############################# Slider and Content ############################# -->
+        <section class="section no-padding slider-content grey-texture animated" data-delay="0" >
+
+
+            <!-- Slider -->
+            <div class="flex-col-1-2 animated" style="width: 300px; margin-left: 5%" data-delay="100">
+                <!-- Carousel slider -->
+                <div id="about-slider" class="slider carousel-slider lead big animated" data-effect="goDown" data-pagination="true" data-nav="true">
+
+                    <foreach name="selfPic" item="list">
+
+
+                    <!-- Slide -->
+                    <div class="slide">
+                        <img src="__PUBLIC__/uploads/{$list.ads_img}"  style=" width: 100%;" alt="{$list.title}">
+                    </div>
+                    <!-- /slide -->
+                    </foreach>
+
+                </div>
+                <!-- /Carousel slider -->
+            </div>
+
+            <!-- Content -->
+            <div class="flex-col-1-2 box">
+                <h3 class="color line-heading tiny big animated" data-delay="100">
+                    简单快乐！每天做好自己份内事
+                    <br/>
+                    Simple and happy! Do a good job every day
+                </h3>
+                <p class="lead big animated" data-delay="100" style="font-size: 14px;">
+                    “有些人的生命是没有风景的，是因为他们只在别人造好的最方便的水管里流过来流过去。你不要理那些水管，你要真的流经一个又一个风景，你才会是一条河。”不知大家会不会产生疑问？在人生的方向选择上大抵会有两种积极的选择，一种是选择做自己喜欢的有兴趣的事，另一种是做好自己现在手中的还不知道喜不喜欢会不会有兴趣的事。前一种在当前的社会呼声最高，也最得人心，却会让人把兴趣当成逃避困难的借口，更多的时候，我们不是对正在做的事情没有兴趣，而是没能力把目前正在做的事情做好；所以，“选择做自己喜欢的事”其实应该成为人生当中“做好自己该做的事情”之一。
+
+                    <br/>
+                    <br/> <br/>
+
+                    "Some people have no scenery, because they flow through the most convenient water pipes that others have made. You don't take care of the water pipes. You're going to be a river after all the scenery after another. " I wonder if you will have any questions? There are two kinds of positive choices in the direction of life. One is to choose something that you like, and the other is to do something that you don't know whether you like it or not. The first in the current society the highest voice, also one of the most popular, but will have the interest as an excuse to avoid the hardship, more often, we are not about what you are doing is not interested, but not the ability to is currently doing well; so, "do what you love" should be a life "one of their own thing to do.".
+                </p>
+            </div>
+
+        </section>
+        <!-- /slider and content -->
+
+
+       <!-- ############################# Process ############################# -->
+        <section id="process" class="section">
+
+            <!-- Container -->
+            <div class="container">
+
+                <!-- Section Header -->
+                <header class="section-header">
+                    <h2 class="section-title animated" data-delay="0">{$KingCarry.0.cat_name}</h2>
+                    <div class="divider dark long animated" data-delay="100"></div>
+                </header>
+                <!-- /section header -->
+
+                <div class="row">
+                    <foreach name="KingCarry" key="kk"  item="vo">
+                        <div class="col-1-2 <if $kk ==1 >last </if> " >
+
+                        <!-- Title -->
+                        <h5 class="line-heading animated" data-delay="0">{$vo.title}</h5>
+
+                        <!-- Text -->
+                        <p class="animated" data-delay="100">{$vo.description}</p>
+
+                        <!-- Button -->
+                        <a class="readmore animated" href="{:U('article/article',array('id'=>$vo.id))}" data-delay="200">Read more</a>
+
+                    </div>
+              </foreach>
+            </div>
+
+                 </div>
+        </section>
+        <!-- /process -->
+
+
+        <!-- ############################# About ############################# -->
+        <section id="about" class="section">
+
+            <!-- Container -->
+            <div class="container">
+
+                <!-- Section Header -->
+                <header class="section-header">
+                    <h2 class="section-title animated" data-delay="0">Who is he?</h2>
+                    <div class="divider dark long animated" data-delay="100"></div>
+                    <h3 class="section-sub-title animated" data-delay="200">Hey, I call Wang Xiaogang a handsome, sunny and coquettish</h3>
+                </header>
+                <!-- /section header -->
+            </div>
+            <!-- About text  -->
+            <div class="about-box cover-bg">
+
+                <div class="about-text col-1-2 center-col">
+                    <h1 class="big-heading color animated" data-delay="300">hi are you ok</h1>
+                    <p class="dark animated" data-delay="500">
+
+                    </p>
+                    <p class="animated" data-delay="600">
+                        In this world of materialism? I've been thinking in my heart
+                        How to get out of the characters! Is it easy to be rich? It is the temperament of the heart as a whole, and it is vulgar. I don't want to find reasons for my money, but I'm really poor. So I want to pretend to be a rich man. But it still needs to be rich. It is beyond logic and above reason
+                    </p>
+                </div>
+            </div>
+        </section>
+        <!-- /about -->
+    </section>
+    <!-- /content -->
+
+    <!-- ############################# Footer ############################# -->
+
+<!-- /page -->
+
+<include file="Public::footer"/>

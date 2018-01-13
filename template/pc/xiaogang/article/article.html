@@ -1,0 +1,39 @@
+<include file="Public::header"/>
+
+<section id="resize-image" class="intro clearfix">
+    <div class="intro-captions">
+        <h3 class="caption-title big animated">{$article.title}</h3><br>
+        <h3 class="caption-title small animated">{$article.description}</h3>
+        <div class="divider white long animated"></div>
+        <a class="intro-button icon-button smooth-scroll animated" href="#content"><i class="icon icon-arrow-down"></i></a>
+    </div>
+    <!-- Image -->
+    <div class="image about-intro"></div>
+    <!-- Overlay -->
+    <span class="overlay animated"></span>
+
+    <!-- Scroll Animation -->
+    <div class="scroll-anim">
+        <span class="scroll"></span>
+        <span class="scroll-text">{$article.author}</span>
+    </div>
+
+</section>
+<!-- /resize-image -->
+
+
+<!-- ############################# Page Content ############################# -->
+<section id="content">
+
+    <!-- ############################# Services ############################# -->
+    <section id="services" class="section">
+
+        <!-- Container -->
+        <div class="container">
+            {$article.content}
+        </div>
+    </section>
+</section>
+
+
+<include file="Public::footer"/>

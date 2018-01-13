@@ -1,0 +1,72 @@
+/* ----------------------------------------
+	* Filename:     common.css
+	* Description:  Global CSS
+	* Design:       CuPlayer.com
+	* CssCreate:    2013-03-30 15:02 
+------------------------------------------ */
+body {margin:0; padding:30px;  margin-top:0px;font-size:12px; color:#313131;text-align: left; font-family:"����",Verdana, Arial, Helvetica, sans-serif; background:url(mbg.gif); } 
+div,ul,li,ol,dl,dt,dd,form,img,p{margin: 0; padding: 0; border: 0; }
+li{list-style-type:none;}
+h4,h5,h6{margin: 0; padding: 0; font-size:14px;}
+/* __link */
+a {color: #313131; text-decoration:none;}
+a:link {color: #313131;text-decoration:none;}
+a:visited {color: #313131;text-decoration:none;}
+a:hover {color:red; text-decoration:underline;}
+a:active {color: #313131;}
+/* __color */
+.cWhite,a.cWhite:link,a.cWhite:visited{ color:#ffffff;}
+.cBlue,a.cBlue:link,a.cBlue:visited,a.cBlue:active{color:#066bb7; }
+.cBlue2,a.cBlue2:link,a.cBlue2:visited,a.cBlue2:active{color:#035db8;}
+a.cBlue2:hover{color:red; }
+.cBlue3,a.cBlue3:link,a.cBlue3:visited,a.cBlue3:active{color:#003366; }
+.cBlack,a.cBlack:link,a.cBlack:visited,a.cBlack:active{color:#000000; }
+.cRed,a.cRed:link,a.cRed:visited{ color:#ff0000; }
+.cGold,a.Gold:link,a.Gold:visited{ color:gold; }
+.cOrange,a.cOrange:link,a.cOrange:visited{ color:orangered; }
+.cGray,a.cGray:link,a.cGray:visited{ color:#6D6359; }
+.cGray3,a.cGray3:link,a.cGray3:visited{ color:#333333; }
+.cGray6,a.cGray6:link,a.cGray6:visited{ color:#999999; }
+.cGray9,a.cGray9:link,a.cGray9:visited{ color:#999999; }
+.cGreen2,a.cGreen2:link,a.cGreen2:visited{ color:#336600; }
+.cYellow,a.cYellow:link,a.cYellow:visited{ color:#FFE0B2; }
+.cRed2,a.cRed2:link,a.cRed2:visited{ color:#ce0400; } a.cRed2:hover{ color:#ce0400; text-decoration:underline; }
+.cRed3,a.cRed3:link,a.cRed3:visited{ color:#96570e; } a.cRed3:hover{ color:red; text-decoration:underline; }
+.cHe,a.cHe:link,a.cHe:visited{ color:#876e25; } a.He:hover{ color:red; text-decoration:underline; }
+.cHe2,a.cHe2:link,a.cHe2:visited{ color:#5f5321; } a.He2:hover{ color:red; text-decoration:underline; }
+.cFlink,a.cFlink:link,a.cFlink:visited,a.cFlink:active{color:#eb6100; }
+.cYellow4,a.cYellow4:link,a.cYellow4:visited{color:#cf5f02}
+
+/* __font */
+.f12{ font-size:12px; }
+.f14{ font-size:14px; }
+.f16{ font-size:16px; }
+.f18{ font-size:18px; }
+.f20{ font-size:20px; }
+.h20{ line-height:20px; }
+.h22{ line-height:22px; }
+.h24{ line-height:24px; }
+.h26{ line-height:26px; }
+.h28{ line-height:28px; }
+.fn { font-weight:normal; }
+.h  { font-family:"����"; }
+.b  { font-weight: bold; }
+.en {font-family:Verdana, Arial, Helvetica, sans-serif,"����"; }
+/* __float */
+.left { float: left;}
+.right{ float: right;}
+.clear{ clear: both; margin:0; padding:0; border:0;}
+.clearfix:after { content: "."; visibility: hidden; display: block; height: 0; clear: both; }
+/* __other */
+.input{border: #a6a6a6 1px solid;background: #ffffff url(../bg_textbox.gif);  color:#C50A32; height: 15px; padding:1px;}
+.input2{border: #cccccc 1px solid;background: #ffffff url(bg_textbox.gif); color:#C50A32; height: 16px; padding:1px; padding-left:2px;}
+.inputsearch1{border: #bbbcbd 1px solid;background: #ffffff url(bg_textbox.gif);  color:#C50A32; height: 20px; padding:1px;} 
+.loginBtn {cursor:  hand;background:url(s_btn.gif); width:50px; height:20px; color:white; padding-top:2px;font-size:12px; border:none;}/*��ҳ����*/
+.inputsearch2{border: #bbbcbd 1px solid;background: #ffffff url(bg_textbox.gif);  color:#C50A32; height: 17px; padding:1px;} /*��Ŀ����*/
+.btnsearch2{background:url(searchbtnbg2.jpg); height:22px;width:60px; border:none; color:white; }
+.textarea{border: #999999 1px solid; font-size: 12px; color:#000000;}
+.topbtn {cursor:  hand;background:url(s_btn1.gif); width:80px; height:20px; color:white; padding-top:2px;font-size:12px; border:none;}
+.m10b{ margin-bottom:10px;} .m10t{ margin-top:10px;} 
+.p10b{ padding-bottom:10px;} .p10t{ padding-top:10px;} 
+
+div.code { line-height:22px;font-family:Verdana, Arial, Helvetica, sans-serif,"����";}

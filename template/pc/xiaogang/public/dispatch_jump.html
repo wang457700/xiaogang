@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<!-- Mirrored from www.zi-han.net/theme/hplus/404.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:52 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>状态</title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__STATIC__/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+
+    <link href="__STATIC__/css/animate.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="middle-box text-center animated fadeInDown">
+    <h1>提示信息</h1>
+
+
+    <?php if($code == 1) {?>
+    <!--处理成功-->
+    <div class="login-box-body">
+        <h4 class="login-box-msg ver_cm"><span class="glyphicon glyphicon-ok ver_cm"></span> <?php echo(strip_tags($msg)); ?></h4>
+        <a href="javascript:void(0);">页面自动 <a id="href" href="<?php echo($url); ?>">跳转</a> 等待时间： <b id="wait"><?php echo($wait); ?></b></a><br /><br />
+
+
+
+    </div>
+    <?php }else{?>
+    <!--处理失败-->
+    <div class="login-box-body">
+        <h4 class="login-box-msg ver_cm"><span class="glyphicon glyphicon-remove ver_cm"></span> <?php echo(strip_tags($msg)); ?></h4>
+        <a href="javascript:void(0);">页面自动 <a id="href" href="<?php echo($url); ?>">跳转</a> 等待时间： <b id="wait"><?php echo($wait); ?></b></a><br /><br />
+    </div>
+    <?php }?>
+    <div class="margin text-center">
+        <div class="copyright">
+            2014-{:date('Y')} &copy; <a href="3">MR:daly的博客！</a>
+            <br/>
+
+        </div>
+    </div>
+</div><!-- /.login-box -->
+
+<script type="text/javascript">
+
+    (function(){
+        var wait = document.getElementById('wait'),href = document.getElementById('href').href;
+        var interval = setInterval(function(){
+            var time = --wait.innerHTML;
+            if(time <= 0) {
+                location.href = href;
+                clearInterval(interval);
+            };
+        }, 1000);
+    })();
+
+</script>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/404.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:52 GMT -->
+</html>

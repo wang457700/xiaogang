@@ -1,0 +1,169 @@
+﻿<include file="Public::header"/>
+    <!-- ############################# Page Content ############################# -->
+    <section id="content">
+
+        <!-- ############################# Contact ############################# -->
+        <section id="contact" class="section" >
+
+             <!-- Container -->
+
+            <div class="container">
+                <!-- Section Header -->
+                <header class="section-header">
+                    <h2 class="section-title animated" data-delay="0">嗨！欢迎你到来</h2>
+                    <div class="divider dark long animated" data-delay="100"></div>
+                    <p class="section-header-text animated" data-delay="200">如果想联系我 你可以通过一下方式联系到我</p>
+                </header>
+                <!-- /section header -->
+
+                <!-- contact list -->
+                <div class="contact-details clearfix">
+                    
+                    <!-- Contact Detail logo -->
+                    <div class="contact-detail flex-col-1-3 animated" data-delay="0">
+                        <h5>my name is Wangxiaogang， English name is called Daly (我叫王晓刚，英文名叫戴利)</h5>
+                        <p>
+                            今年26了 <br>
+                            现在是一名PHP工程师 <br>
+                            时间年轮埋藏寂寞汗水<br>自由之路由此萌芽！
+                        </p>
+
+                    </div>
+                    <!-- /contact-detail logo -->
+                     <!-- Contact Detail logo -->
+                    <div class="contact-detail flex-col-1-3 animated" data-delay="0">
+                        
+                        <ul class="email-list">
+                            <li><span>QQEmail </span><a href="#">457700516@qq.com</a></li>
+                            <li><span>QQ</span><a href="#">457700516</a></li>
+                            <li><span>mobilePhone</span><a href="#"></a>18682402468</li>
+                            <li><span>WeChat</span><a href="#">awnagxiaogang</a></li>
+                        </ul>
+                            
+                    </div>
+                    <!-- /contact-detail logo -->
+                    
+                    <!-- Contact Detail logo -->
+                    <div class="contact-detail flex-col-1-3 animated" data-delay="0">
+                        Phone:
+                        <p class="lead medium dark"><strong>私人号</strong>18665585707</p>
+                        
+
+                    </div>
+                    <!-- /contact-detail logo -->
+             
+                </div>
+                <!-- /contact-list -->
+
+            </div>
+            <!-- /container -->
+
+        </section>
+        <!-- /contact -->
+
+        <!-- ############################# Form Box ############################# -->
+        <div id="form-box" class="grey-texture padding">
+            
+            <div class="col-1-2 center-col">
+                <header class="text-center">
+                    <h5 class="form-title animated" data-delay="0">把你的好想法提交给我</h5>
+                    <p class="animated" data-delay="100">以邮箱的方式发送我,会在24小时之内回复你</p>
+                </header>
+
+                <!-- contact form -->
+                <form action="{:U('Contact/contact')}" method="post" class="form contact-form">
+
+                    <input type="email" class="animated" name="email" value="" id="contact-email" required placeholder="邮箱 (必填):" data-delay="100">
+              
+                    <input type="text" class="animated" name="title" value="" id="contact-www" placeholder="标题(必填)" data-delay="200">
+                
+                    <textarea name="message" class="animated" id="contact-message" cols="88" rows="6" required placeholder="消息内容 (必填):" data-delay="300"></textarea>
+
+                    <input type="submit" id="sub" value="提交发送" style="color: #000" class="animated" >
+                </form>
+                <!-- /contact form -->
+            </div>
+
+
+        </div>
+        <!-- /form box -->
+
+        <!-- ############################# Google Maps ############################# -->
+        <section class="clearfix" style="max-width: 1024px;min-width: 320px;margin: 0 auto;">
+            <p class="animated" data-delay="100" style="margin-top: 15px; text-align: center">这我的家乡，虽然有些落后但是我还是喜欢这里！(This is my hometown, although some backwardness, but I still like it!)</p>
+
+            <div id="map">
+                <div style="width: 100%; height: 503px;" id="allmap"></div>
+            </div>
+        </section>
+
+    </section>
+    <!-- /content -->
+
+    <!-- ############################# Footer ############################# -->
+
+
+<!-- /page -->
+
+
+    <include file="Public::footer"/>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=67jMQ5DmYTe1TLMBKFUTcZAR"></script>
+<script type="text/javascript">
+    $(function () {
+        ShowMap('107.4434,31.676034', '笔山镇', '巴中市平昌县', '18665585707', '457700516', '20');
+    })
+    function getInfo(id) {
+        $.ajax({
+            type: "POST",
+            url: "WebUserControl/Contact/GetInfo.ashx",
+            cache: false,
+            async: false,
+            data: { ID: id },
+            success: function (data) {
+                data = eval(data);
+                var length = data.length;
+                if (length > 0) {
+                    ShowMap(data[0]["Image"], data[0]["NewsTitle"], data[0]["Address"], data[0]["Phone"], data[0]["NewsTags"], data[0]["NewsNum"]);
+                }
+            }
+        });
+    }
+    function ShowMap(zuobiao, name, addrsee, phone, chuanzhen, zoom) {
+        var arrzuobiao = zuobiao.split(',');
+        var map = new BMap.Map("allmap");
+        map.centerAndZoom(new BMap.Point(arrzuobiao[0], arrzuobiao[1]), zoom);
+        map.addControl(new BMap.NavigationControl());
+        var marker = new BMap.Marker(new BMap.Point(arrzuobiao[0], arrzuobiao[1]));
+        map.addOverlay(marker);
+        var infoWindow = new BMap.InfoWindow('<p style="color: #bf0008;font-size:14px;">' + name + '</p><p>地址：' + addrsee + '</p><p>电话：' + phone + '</p><p>QQ：' + chuanzhen + '</p>');
+        marker.addEventListener("click", function () {
+            this.openInfoWindow(infoWindow);
+        });
+        marker.openInfoWindow(infoWindow);
+    }
+    function checkEmail(str){
+        var reg = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        if(reg.test(str)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    $(document).ready(function(){
+        $("#sub").click(function(){
+            var email = $('input[name="email"]').val();
+            var message = $('input[name="message"]').val();
+            var title = $('input[name="title"]').val();
+            if(message=="" && title==""){
+                return   layer.alert('消息和标题不能为空', {icon: 2});
+            }
+            if (!checkEmail(email)) {
+             return   layer.alert('请输入正确的邮箱', {icon: 2});
+            }
+        });
+    });
+
+
+
+</script>

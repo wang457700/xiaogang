@@ -1,0 +1,405 @@
+﻿
+<include file="Public::header"/>
+<link rel="stylesheet" href="__STATIC__/css/layout.css">
+<link rel="stylesheet" href="__STATIC__/css/comment.css">
+    <!-- ############################# Intro Image ############################# -->
+    <section id="intro-image" class="intro medium clearfix">
+
+        <div class="intro-captions">
+            <h3 class="caption-title big animated">嗨喽！欢迎留言？把你想说的大声说出来吧！</h3><br>
+            <h3 class="caption-title small animated">Hi! Are you welcome to leave a message? Speak out of what you want to say.</h3>
+        </div>
+
+        <!-- Image -->
+        <div class="image zoom news-intro"></div>
+
+        <!-- Scroll Animation -->
+        <div class="scroll-anim">
+            <span class="scroll"></span>
+            <span class="scroll-text">show time</span>
+        </div>
+
+        <!-- Overlay -->
+        <span class="overlay animated"></span>
+
+    </section>
+
+    <!-- ############################# Page Content ############################# -->
+    <section id="content" style="padding: 0px;margin: 0px;">
+
+        <!-- ############################# News Entries ############################# -->
+        <section class="section" id="news-entries">
+            <form method="post" action="">
+            <!-- Entry -->
+            <foreach name="list"   item="info" key="kk">
+            <div class="entry animated" data-delay="0">
+                <!-- Container -->
+                <div class="self-content animated " >
+                <div class="section" style="margin: 0 15px;">
+                    <div class="col-2-3 last">
+                        <h5 class="entry-title" >
+                            <if condition="$info.six ==0 ">
+                                <img style="width: 48px;height: 48px;" src="__STATIC__/images/man.png" alt="">
+                                <else />
+                                <img style="width: 48px;height: 48px;" src="__STATIC__/images/women.png" alt="">
+                            </if>
+
+                            用户：{$info.author} <span  style="font-size: 16px;color: #999;margin-left: 50px;">{:date('y-d',$info.addtime)}</span>
+                        </h5>
+
+                        <div>
+                          <div style="float: left">发表: {$info.content}</div>
+                            <div style="float: right">
+
+                                <a href="javascript:void (0)" class="f" onclick="flower({$info.id},this)" ><img src="__STATIC__/img/flower.png" style="width: 20px; height: 20px" >收到({$info.flower})</a>
+                                <a href="javascript:void (0)" class="d" onclick="dianzhan({$info.id},this)"><img style="width: 20px;height: 20px;" src="__STATIC__/img/ioc.png">({$info.dianzhan})</a>
+                            </div>
+
+                            <div style="clear: both"></div>
+                        <!--
+                            此评论textarea文本框部分使用的https://github.com/alexdunphy/flexText此插件
+                        -->
+                        <div class="commentAll">
+                            <!--评论区域 begin-->
+                            <div class="reviewArea clearfix">
+                                <textarea class="content comment-input" style="min-height: 30px;" placeholder="评论&hellip;" onkeyup="keyUP(this)"></textarea>
+                                <a href="javascript:;" data-content-id="{$info.id}" class="plBtn">评论</a>
+                            </div>
+                            <!--评论区域 end-->
+                            <empty name="info.comment" >
+                            <div class="comment-show">
+                                <div class="comment-show-con clearfix">
+                                </div>
+                            </div>
+                            </empty>
+                            <!--回复区域 begin-->
+                            <notempty name="info.comment" >
+                            <foreach name="info['comment']" key="k" item="men" >
+                            <div class="comment-show">
+                                <div class="comment-show-con clearfix">
+                                    <div class="comment-show-con-list pull-left clearfix">
+                                        <div class="pl-text clearfix">
+                                            <a href="javascript:void (0)" data-id="{$men.id}" class="comment-size-name">{$men.nickname}: </a>
+                                            <span class="my-pl-con">&nbsp;{$men.content}</span>
+                                        </div>
+                                        <div class="date-dz">
+                                            <span class="date-dz-left pull-left comment-time">{$men.addtime}</span>
+                                            <div class="date-dz-right pull-right comment-pl-block">
+                                                <if condition="$men.user_id eq $Think.session.user_id "><a href="javascript:;" class="removeBlock">删除</a>
+                                                </if>
+                                                <a href="javascript:;"  class="date-dz-pl pl-hf hf-con-block pull-left">回复</a>
+                                            </div>
+                                        </div>
+                                        <div class="hf-list-con">
+                                            <notempty name="men.reply">
+                                                <foreach name="men['reply']" key="plykey" item="replys">
+                                            <div class="all-pl-con">
+                                                <div class="pl-text hfpl-text clearfix">
+                                                    <a href="#" data-id="{$replys.mes_id}" class="comment-size-name">
+                                                        {$replys.nickname}{$replys.content}
+                                                    </a>
+                                                </div>
+                                                <div class="date-dz"><span class="date-dz-left pull-left comment-time">{$replys.addtime}</span>
+                                                    <div class="date-dz-right pull-right comment-pl-block">
+                                                        <if condition="$replys.user_id eq $Think.session.user_id "><a href="javascript:;" class="removeBlock">删除</a>  </if>
+                                                        <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a></div>
+
+
+                                                </div>
+                                            </div>
+                                                </foreach>
+                                            </notempty>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </foreach>
+                            </notempty>
+                            <!--回复区域 end-->
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- /container -->
+            </div>
+            <!-- /entry -->
+            </foreach>
+           </form>
+            <div  class="grey-texture padding" style="text-align: center">
+                {$page}
+            </div>
+            </div>
+
+        <!-- Request box  -->
+            <section id="form-box" class="grey-texture padding">
+                <div class="col-1-2 center-col">
+            <form action="{:U('Message/addMessage')}" method="post" class="form contact-form">
+
+                <textarea name="message" class="animated"  cols="88" rows="6" required placeholder="消息内容 (必填):" data-delay="300"></textarea>
+                <input  type="submit"  value="提交留言" style="color: #000;" class="animated" >
+            </form>
+                </div>
+            <!-- /contact form -->
+                <section class="clearfix" style="max-width: 1024px;min-width: 320px;margin: 0 auto;">
+                <p class="animated" data-delay="100" style="margin-top: 15px;color: red; text-align: center">文明留言！做个乖宝宝把！(Civilization message! To be a good boy!)</p>
+
+                <div id="map">
+
+                </div>
+            </section>
+            </section>
+
+    </section>
+    <!-- /content -->
+
+    </section>
+<!-- /page -->
+<include file="Public::footer"/>
+<script type="text/javascript" src="__STATIC__/js/jquery.flexText.js"></script>
+<!--textarea高度自适应-->
+<script type="text/javascript">
+    $(function () {
+        $('.content').flexText();
+    });
+</script>
+<!--textarea限制字数-->
+<script type="text/javascript">
+    function keyUP(t){
+        var len = $(t).val().length;
+        if(len > 500){
+            $(t).val($(t).val().substring(0,140));
+        }
+    }
+</script>
+<!--点击评论创建评论条-->
+<script type="text/javascript">
+    $('.commentAll').on('click','.plBtn',function(){
+       var nickname='{$Think.session.nickname}';
+        if(!nickname) {
+            alert("请先登录在评论");
+         return   window.setTimeout("window.location='{:U('login/login')}'", 2000);
+        }else {
+            var myDate = new Date();
+            //获取当前年
+            var year=myDate.getFullYear();
+            //获取当前月
+            var month=myDate.getMonth()+1;
+            //获取当前日
+            var date=myDate.getDate();
+            var h=myDate.getHours();       //获取当前小时数(0-23)
+            var m=myDate.getMinutes();     //获取当前分钟数(0-59)
+            if(m<10) m = '0' + m;
+            var s=myDate.getSeconds();
+            if(s<10) s = '0' + s;
+            var now=year+'-'+month+"-"+date+" "+h+':'+m+":"+s;
+            //获取输入内容
+            var oSize = $(this).siblings('.flex-text-wrap').find('.comment-input').val();
+            var mes_id =$(this).attr("data-content-id");
+            console.log(oSize);
+            $.ajax({
+                type : "POST",
+                url:"{:U('message/comment')}",
+                data:{'mes_id':mes_id,'name':nickname,'content':oSize},
+                success: function(data){
+
+                }
+            });
+            //动态创建评论模块
+            oHtml = '<div class="comment-show-con clearfix"><div class="comment-show-con-img pull-left"><img src="images/header-img-comment_03.png" alt=""></div> <div class="comment-show-con-list pull-left clearfix"><div class="pl-text clearfix"> <a href="#"data-id="{$men.id}" class="comment-size-name">{$Think.session.nickname}: </a> <span class="my-pl-con">&nbsp;'+ oSize +'</span> </div> <div class="date-dz"> <span class="date-dz-left pull-left comment-time">'+now+'</span> <div class="date-dz-right pull-right comment-pl-block"><a href="javascript:;" class="removeBlock">删除</a> <a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a>  </div> </div><div class="hf-list-con"></div></div> </div>';
+            if(oSize.replace(/(^\s*)|(\s*$)/g, "") != ''){
+                $(this).parents('.reviewArea ').siblings('.comment-show').prepend(oHtml);
+                $(this).siblings('.flex-text-wrap').find('.comment-input').prop('value','').siblings('pre').find('span').text('');
+            }
+        }
+    });
+</script>
+<!--点击回复动态创建回复块-->
+<script type="text/javascript">
+    $('.comment-show').on('click','.pl-hf',function(){
+        //获取回复人的名字
+        var fhName = $(this).parents('.date-dz-right').parents('.date-dz').siblings('.pl-text').find('.comment-size-name').html();
+        //回复@
+        var fhN = '回复@'+fhName;
+        var id = $(this).parents('.date-dz-right').parents('.date-dz').siblings('.pl-text').find('.comment-size-name').attr("data-id");
+
+        //var oInput = $(this).parents('.date-dz-right').parents('.date-dz').siblings('.hf-con');
+        var fhHtml = '<div class="hf-con pull-left"> <textarea class="content comment-input hf-input" style="min-height: 30px;" placeholder="" onkeyup="keyUP(this)"></textarea> <a href="javascript:;" data-vid="'+id+'" class="hf-pl">评论</a></div>';
+        //显示回复
+
+
+        if($(this).is('.hf-con-block')){
+            $(this).parents('.date-dz-right').parents('.date-dz').append(fhHtml);
+            $(this).removeClass('hf-con-block');
+            $('.content').flexText();
+            $(this).parents('.date-dz-right').siblings('.hf-con').find('.pre').css('padding','6px 15px');
+
+            //input框自动聚焦
+            $(this).parents('.date-dz-right').siblings('.hf-con').find('.hf-input').val('').focus().val(fhN);
+        }else {
+            $(this).addClass('hf-con-block');
+            $(this).parents('.date-dz-right').siblings('.hf-con').remove();
+        }
+    });
+</script>
+<!--评论回复块创建-->
+<script type="text/javascript">
+    $('.comment-show').on('click','.hf-pl',function(){
+
+        var nickname='{$Think.session.nickname}';
+        if(!nickname) {
+            alert("请先登录在评论");
+            return  window.setTimeout("window.location='{:U('login/login')}'", 2000);
+        }
+        var oThis = $(this);
+        var myDate = new Date();
+        //获取当前年
+        var year=myDate.getFullYear();
+        //获取当前月
+        var month=myDate.getMonth()+1;
+        //获取当前日
+        var date=myDate.getDate();
+        var h=myDate.getHours();       //获取当前小时数(0-23)
+        var m=myDate.getMinutes();     //获取当前分钟数(0-59)
+        if(m<10) m = '0' + m;
+        var s=myDate.getSeconds();
+        if(s<10) s = '0' + s;
+        var now=year+'-'+month+"-"+date+" "+h+':'+m+":"+s;
+        //获取输入内容
+        var oHfVal = $(this).siblings('.flex-text-wrap').find('.hf-input').val();
+        console.log(oHfVal);
+        var oHfName = $(this).parents('.hf-con').parents('.date-dz').siblings('.pl-text').find('.comment-size-name').html();
+        var mes_id =$(this).attr("data-vid");
+        $.ajax({
+            type : "POST",
+            url:"{:U('message/reply')}",
+            data:{'mes_id':mes_id,'name':nickname,'content':oHfVal},
+            success: function(data){
+
+            }
+        });
+        var oAllVal = '回复@'+oHfName;
+
+        if(oHfVal.replace(/^ +| +$/g,'') == '' || oHfVal == oAllVal){
+
+        }else {
+            $.getJSON("__STATIC__/json/pl.json",function(data){
+                var oAt = '';
+                var oHf = '';
+                $.each(data,function(n,v){
+                    delete v.hfContent;
+                    delete v.atName;
+                    var arr;
+                    var ohfNameArr;
+                    if(oHfVal.indexOf("@") == -1){
+                        data['atName'] = '';
+                        data['hfContent'] = oHfVal;
+                    }else {
+                        arr = oHfVal.split(':');
+                        ohfNameArr = arr[0].split('@');
+                        data['hfContent'] = arr[1];
+                        data['atName'] = ohfNameArr[1];
+                    }
+
+                    if(data.atName == ''){
+                        oAt = data.hfContent;
+                    }else {
+                        oAt = '回复<a href="javascript:;" class="atName">@'+data.atName+'</a> : '+data.hfContent;
+                    }
+                    oHf = data.hfName;
+
+                });
+
+                var oHtml = '<div class="all-pl-con"><div class="pl-text hfpl-text clearfix">' +
+                    '<a href="#" data-id="{$replys.mes_id}" class="comment-size-name">'+nickname+' : </a>' +
+                    '<span class="my-pl-con">'+oAt+'</span></div>' +
+                    '<div class="date-dz"> <span class="date-dz-left pull-left comment-time">'+now+'</span> <div class="date-dz-right pull-right comment-pl-block">' +
+                    '<a href="javascript:;" class="date-dz-pl pl-hf hf-con-block pull-left">回复</a>  </div> </div></div>';
+                oThis.parents('.hf-con').parents('.comment-show-con-list').find('.hf-list-con').css('display','block').prepend(oHtml) && oThis.parents('.hf-con').siblings('.date-dz-right').find('.pl-hf').addClass('hf-con-block') && oThis.parents('.hf-con').remove();
+            });
+        }
+    });
+</script>
+<!--删除评论块-->
+<script type="text/javascript">
+    $('.commentAll').on('click','.removeBlock',function(){
+        var oT = $(this).parents('.date-dz-right').parents('.date-dz').parents('.all-pl-con');
+        if(oT.siblings('.all-pl-con').length >= 1){
+            oT.remove();
+        }else {
+            $(this).parents('.date-dz-right').parents('.date-dz').parents('.all-pl-con').parents('.hf-list-con').css('display','none')
+            oT.remove();
+        }
+        $(this).parents('.date-dz-right').parents('.date-dz').parents('.comment-show-con-list').parents('.comment-show-con').remove();
+
+    })
+</script>
+<!--点赞-->
+<script type="text/javascript">
+    $('.comment-show').on('click','.date-dz-z',function(){
+        var zNum = $(this).find('.z-num').html();
+        if($(this).is('.date-dz-z-click')){
+            zNum--;
+            $(this).removeClass('date-dz-z-click red');
+            $(this).find('.z-num').html(zNum);
+            $(this).find('.date-dz-z-click-red').removeClass('red');
+        }else {
+            zNum++;
+            $(this).addClass('date-dz-z-click');
+            $(this).find('.z-num').html(zNum);
+            $(this).find('.date-dz-z-click-red').addClass('red');
+        }
+    })
+    $(document).ready(function(){
+        $("#sub").click(function(){
+            var message = $('input[name="message"]').val();
+            if(message=="" ){
+                return   alert('消息不能为空');
+            }
+
+        });
+    });
+
+    function flower(e,f) {
+        $.ajax({
+            type : "POST",
+            url:"{:U('message/flower')}",
+            data:{num:e},
+            success: function(data){
+                var res = $.parseJSON(data);
+                if(res.status  !=0){
+                    $(f).html('<img src="__STATIC__/img/flower.png" style="width: 20px; height: 20px" >'+"收到("+res.flower +")");
+
+                }else {
+                    alert("请先登录在送鲜花");
+                    window.setTimeout("window.location='{:U('login/login')}'",2000);
+                }
+            }
+        });
+    }
+
+    function dianzhan(e,d) {
+        $.ajax({
+            type : "POST",
+            url:"{:U('message/dianzhan')}",
+            data:{num:e},
+            success: function(data){
+                var res = $.parseJSON(data);
+                if(res.status !=0){
+                    $(d).html('<img style="width: 20px;height: 20px;" src="__STATIC__/img/ioc.png">'+"("+res.dianzhan +")");
+
+                }else {
+                    alert("请先登录在点赞");
+                    window.setTimeout("window.location='{:U('login/login')}'",2000);
+
+                }
+            }
+        });
+    }
+
+</script>
+
+
+
+
+

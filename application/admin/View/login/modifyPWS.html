@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_basic.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - 基本表单</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__STATIC__/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="__STATIC__/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="__STATIC__/css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="__STATIC__/css/animate.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" href="__STATIC__/css/login.min.css" />
+    <link rel="stylesheet" href="__STATIC__/js/kindeditor/themes/default/default.css" />
+
+</head>
+
+<body class="gray-bg">
+
+<div class="middle-box text-center loginscreen   animated fadeInDown">
+    <div>
+        <div>
+
+            <h1 class="logo-name">H+</h1>
+
+        </div>
+        <h3>修改密码H+</h3>
+        <p>修改密码请输入正确的邮箱账号</p>
+        <form class="m-t" role="form" method="post" action="#">
+            <div class="form-group">
+                <input type="text" class="form-control" name="username" placeholder="用户名" required="">
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" name="email_user" placeholder="发送绑定邮箱账号" required="">
+            </div>
+            <div class="form-group">
+                <input type="text" class="inp imgcode J_imgcode" placeholder="邮箱验证码" id="code" name="code" required=""/>
+                <button class="fn-fl icode" onclick="send_smtp_reg_code()" type="button" id="count_down">发送</button>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="新密码" required="">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password2" class="form-control" placeholder="请再次输入密码" required="">
+            </div>
+
+            <input type="submit" name="do_submit" class="btn btn-primary block full-width m-b" value="确认修改">
+
+            </p>
+
+        </form>
+    </div>
+</div>
+<script src="__STATIC__/js/jquery.min.js?v=2.1.4"></script>
+<script src="__STATIC__/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="__STATIC__/js/plugins/iCheck/icheck.min.js"></script>
+<script src="__STATIC__/js/plugins/layer/layer.min.js"></script>
+<script>
+    $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+</script>
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+<script>
+    // 发送邮箱
+    function send_smtp_reg_code() {
+
+        var email = $('input[name="email_user"]').val();
+
+        if (!checkEmail(email)) {
+            layer.alert('请输入正确的邮箱', {icon: 2});
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "{:U('admin/Api/send_validate_code')}",
+            data: {type: 'email', send: email, scene: 1},// 你的formid
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 1) {
+                    $('#count_down').attr("disabled", "disabled");
+                    intAs = 10; // 发送邮箱超时时间
+                    jsInnerTimeout('count_down', intAs);
+                    layer.alert(data.msg, {icon: 1});
+                } else {
+                    layer.alert(data.msg, {icon: 2});
+                    verify('reflsh_code2')
+                }
+            }
+        });
+    }
+
+    $('#count_down').removeAttr("disabled");
+    //倒计时函数
+    function jsInnerTimeout(id, intAs) {
+        var codeObj = $("#" + id);
+//var intAs = parseInt(codeObj.attr("IntervalTime"));
+
+        intAs--;
+        if (intAs <= -1) {
+            codeObj.removeAttr("disabled");
+//            codeObj.attr("IntervalTime",60);
+            codeObj.text("发送");
+            return true;
+        }
+
+        codeObj.text(intAs + '秒');
+//        codeObj.attr("IntervalTime",intAs);
+
+        setTimeout("jsInnerTimeout('" + id + "'," + intAs + ")", 1000);
+    }
+
+    function checkEmail(str){
+        var reg = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        if(reg.test(str)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+</script>
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:52 GMT -->
+</html>
