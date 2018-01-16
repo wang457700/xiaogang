@@ -25,45 +25,16 @@ class Message extends Base
 
     public function message()
     {
-        error_reporting(E_ERROR | E_PARSE );
+           error_reporting(E_ERROR | E_PARSE );
         header("Content-type: text/html; charset=utf-8");
-        //$Page  = new Page( count($count),2);*/
-
-        $p=db('messages')->paginate(1);
-
-        $page = $p->render();
-
         $list=db('messages')->alias('a')->join('__USER__ b','a.user_id=b.user_id','left')->distinct('b.six')->field('a.*,b.six')->select();
-
         $data=$this->commentReply($list);
-
-        $curpage = I('page') ? input('page') : 1;
         $count=count($data);
-        $listRow = 10;
-        $start=($page-1)*$count;
-       // $showdata = array_slice($data,$start,$count);
-            $data[$curpage-1];
-            $showdata = array_chunk($data[$curpage-1], count($data[0]),true);
-            /*  $res=db('messages')->alias('a')
-             ->join('__COMMENT__ b ',' a.id=b.mes_id','left')
-             ->join('__PEPLY__ c', 'b.mes_id=c.mes_id','left')
-             ->field('a.*,b.id as comment_id,b.content as comment_content,b.nickname,b.user_id as comment_user_id,b.addtime as comment_addtime,c.reply_id,c.mes_id as peply_mes_id,c.nickname as peply_nickname,c.addtime as peply_addtime')
-             ->order('a.addtime desc')->paginate(5);*/
-              $res = Bootstrap::make($showdata, $listRow, $curpage, count($data), false, [
-                'var_page' => 'page',
-                'path'     => url('Message/message'),
-                'query'    => [],
-                'fragment' => '',
-                 'type'=>'bootstrap',
-                 'list_rows' => 15
-            ]);
-            $res->appends($_REQUEST);
-            $this->assign('page', $page);
-
-
-
-            $this->assign('list', $res);
-
+        $Page= new page($count,3);
+        $list=array_slice($data,$Page->firstRow,$Page->listRows,true);
+        $show_page=$Page->show();
+        $this->assign('page', $show_page);
+        $this->assign('list', $list);
         return $this->fetch();
     }
 
